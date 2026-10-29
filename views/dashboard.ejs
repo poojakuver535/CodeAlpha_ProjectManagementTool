@@ -1,0 +1,18 @@
+<%- include('partials/nav') %>
+<link rel="stylesheet" href="/style.css">
+<main class="container">
+  <h1>Your Projects</h1>
+  <form method="POST" action="/project" class="project-form">
+    <input name="name" placeholder="Project name" required>
+    <input name="description" placeholder="Description">
+    <button class="btn">Create Project</button>
+  </form>
+  <div class="grid">
+    <% projects.forEach(p => { %>
+      <a href="/project/<%= p.id %>" class="project-card">
+        <h3><%= p.name %></h3>
+        <p><%= p.description %></p>
+      </a>
+    <% }) %>
+  </div>
+</main>

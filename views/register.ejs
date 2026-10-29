@@ -1,0 +1,13 @@
+<%- include('partials/nav') %>
+<link rel="stylesheet" href="/style.css">
+<main class="container form-page">
+  <h1>Register</h1>
+  <% if (error) { %><p class="error"><%= error %></p><% } %>
+  <form method="POST" action="/register">
+    <input name="username" type="text" placeholder="Username" required>
+    <input name="email" type="email" placeholder="Email" required>
+    <input name="password" type="password" placeholder="Password" required>
+    <button class="btn">Register</button>
+  </form>
+  <p>Have an account? <a href="/login">Login</a></p>
+</main>

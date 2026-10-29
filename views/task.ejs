@@ -1,0 +1,25 @@
+<%- include('partials/nav') %>
+<link rel="stylesheet" href="/style.css">
+<main class="container">
+  <a href="/project/<%= task.project_id %>">← Back to board</a>
+  <h1><%= task.title %></h1>
+  <p><%= task.description %></p>
+  <p>Assignee: <%= task.assignee || 'Unassigned' %></p>
+  <form method="POST" action="/task/<%= task.id %>/status">
+    <select name="status">
+      <option value="todo" <%= task.status==='todo'?'selected':'' %>>To Do</option>
+      <option value="in-progress" <%= task.status==='in-progress'?'selected':'' %>>In Progress</option>
+      <option value="done" <%= task.status==='done'?'selected':'' %>>Done</option>
+    </select>
+    <button class="btn">Update Status</button>
+  </form>
+
+  <h3>Comments</h3>
+  <% comments.forEach(c => { %>
+    <div class="comment"><strong>@<%= c.username %></strong>: <%= c.content %> <small><%= c.created_at %></small></div>
+  <% }) %>
+  <form method="POST" action="/task/<%= task.id %>/comment">
+    <textarea name="content" placeholder="Add a comment..." required></textarea>
+    <button class="btn">Comment</button>
+  </form>
+</main>

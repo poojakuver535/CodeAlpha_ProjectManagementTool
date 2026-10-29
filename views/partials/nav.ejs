@@ -1,0 +1,14 @@
+<nav class="navbar">
+  <div class="nav-container">
+    <a href="/" class="brand">📋 CodeAlpha PM</a>
+    <div class="nav-links">
+      <% if (user) { %>
+        <span>Hi, <%= user.username %></span>
+        <a href="/logout">Logout</a>
+      <% } else { %>
+        <a href="/login">Login</a>
+        <a href="/register">Register</a>
+      <% } %>
+    </div>
+  </div>
+</nav>

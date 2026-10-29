@@ -1,0 +1,48 @@
+<%- include('partials/nav') %>
+<link rel="stylesheet" href="/style.css">
+<main class="container">
+  <h1><%= project.name %></h1>
+  <p><%= project.description %></p>
+
+  <div class="members">
+    <strong>Members:</strong>
+    <% members.forEach(m => { %><span class="pill">@<%= m.username %></span><% }) %>
+    <form method="POST" action="/project/<%= project.id %>/member" style="display:inline">
+      <input name="username" placeholder="username to add" required>
+      <button class="btn-small">Add</button>
+    </form>
+  </div>
+
+  <form method="POST" action="/project/<%= project.id %>/task" class="task-form">
+    <input name="title" placeholder="Task title" required>
+    <input name="description" placeholder="Description">
+    <select name="assigned_to">
+      <option value="">Unassigned</option>
+      <% allUsers.forEach(u => { %><option value="<%= u.id %>"><%= u.username %></option><% }) %>
+    </select>
+    <button class="btn">Add Task</button>
+  </form>
+
+  <div class="board">
+    <% ['todo', 'in-progress', 'done'].forEach(status => { %>
+      <div class="column">
+        <h3><%= status.toUpperCase() %></h3>
+        <% tasks.filter(t => t.status === status).forEach(t => { %>
+          <div class="task-card">
+            <a href="/task/<%= t.id %>"><strong><%= t.title %></strong></a>
+            <p><%= t.description %></p>
+            <% if (t.assignee) { %><small>👤 @<%= t.assignee %></small><% } %>
+          </div>
+        <% }) %>
+      </div>
+    <% }) %>
+  </div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    const socket = io();
+    socket.emit('join-project', <%= project.id %>);
+    socket.on('task-created', () => location.reload());
+    socket.on('task-updated', () => location.reload());
+  </script>
+</main>
